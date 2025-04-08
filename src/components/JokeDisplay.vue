@@ -230,7 +230,7 @@ onMounted(() => {
       </div>
 
       <!-- Controls -->
-      <div class="flex justify-between pt-4">
+      <div class="flex justify-center pt-4">
         <button 
           v-if="!isPunchlineRevealed" 
           @click="revealPunchline" 
