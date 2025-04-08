@@ -154,7 +154,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
+  <div class="max-w-md mx-auto dark:bg-gray-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
     <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-6">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
         <Icon :icon="jokeType === 'programming' ? 'mdi:code-tags' : 'mdi:emoticon'" class="mr-2" width="24" height="24" />
@@ -234,22 +234,22 @@ onMounted(() => {
         <button 
           v-if="!isPunchlineRevealed" 
           @click="revealPunchline" 
-          class="font-bold cursor-pointer px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center"
+          class="w-full sm:w-auto font-bold cursor-pointer px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center sm:justify-start"
         >
           <Icon icon="mdi:eye" class="mr-1" width="20" height="20" />
           Reveal Punchline
         </button>
-        <div v-else-if="!isTypingPunchline" class="flex space-x-3 transition-opacity duration-500 ease-in-out" :class="{'opacity-100': !isTypingPunchline, 'opacity-0': isTypingPunchline}">
+        <div v-else-if="!isTypingPunchline" class="flex flex-col sm:flex-row sm:space-x-3 sm:space-y-0 space-y-3 transition-opacity duration-500 ease-in-out" :class="{'opacity-100': !isTypingPunchline, 'opacity-0': isTypingPunchline}">
           <button 
             @click="getNewJoke" 
-            class="font-bold cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center"
+            class="font-bold cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
           >
             <Icon icon="mdi:refresh" class="mr-1" width="20" height="20" />
             Get Another Joke
           </button>
           <button 
             @click="saveJoke" 
-            class="font-bold cursor-pointer px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 flex items-center"
+            class="font-bold cursor-pointer px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 flex items-center justify-center"
           >
             <Icon icon="mdi:content-save" class="mr-1" width="20" height="20" />
             Save Joke

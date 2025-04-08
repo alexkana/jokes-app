@@ -162,7 +162,7 @@ defineExpose({
 
 <template>
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mt-8">
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex sm:flex-row flex-col space-y-3 sm:space-y-0 justify-between items-center mb-6">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
         <Icon icon="mdi:emoticon" class="mr-2" width="24" height="24" />
         Your Saved Jokes
@@ -170,11 +170,11 @@ defineExpose({
       
       <!-- Collection statistics -->
       <div class="text-right text-sm text-gray-500 dark:text-gray-400">
-        <p class="flex items-center justify-end">
+        <p class="flex items-center justify-center sm:justify-end">
           <Icon icon="mdi:counter" class="mr-1" width="16" height="16" />
           Total jokes: <span class="font-medium ml-1">{{ totalJokes }}</span>
         </p>
-        <p v-if="averageRating > 0" class="flex items-center justify-end">
+        <p v-if="averageRating > 0" class="flex items-center justify-center sm:justify-end">
           <Icon icon="mdi:star-half-full" class="mr-1" width="16" height="16" />
           Average rating: <span class="font-medium ml-1">{{ averageRating }} ★</span>
         </p>
