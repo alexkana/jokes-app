@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const title = 'About Us'
+const title = 'About Us';
 </script>
 
 <template>

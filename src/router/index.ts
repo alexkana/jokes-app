@@ -4,10 +4,10 @@ import {
   type RouteRecordRaw,
   type RouteLocationNormalized,
   type NavigationGuardNext,
-} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import CollectionView from '../views/CollectionView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
+} from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import CollectionView from '../views/CollectionView.vue';
+import NotFoundView from '../views/NotFoundView.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -37,22 +37,22 @@ const routes: RouteRecordRaw[] = [
       description: 'The page you are looking for does not exist',
     },
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
 // Update document title based on route meta
 router.beforeEach(
   (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     // Set the document title based on the route's meta title
     if (to.meta.title) {
-      document.title = `Jokes App | ${to.meta.title as string}`
+      document.title = `Jokes App | ${to.meta.title as string}`;
     }
-    next()
+    next();
   }
-)
+);
 
-export default router
+export default router;

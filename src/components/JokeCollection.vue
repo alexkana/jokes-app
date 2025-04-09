@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
-import { Joke, SortOption } from "../interfaces";
-import { Icon } from "@iconify/vue";
+import { ref, onMounted, computed } from 'vue';
+import { Joke, SortOption } from '@/interfaces';
+import { Icon } from '@iconify/vue';
+import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 
 // State for saved jokes collection
 const savedJokes = ref<Joke[]>([]);
 const isEmpty = computed(() => savedJokes.value.length === 0);
 
 // Search and filter state
-const searchQuery = ref("");
+const searchQuery = ref('');
 const minRatingFilter = ref(0);
 const sortOption = ref<SortOption>(SortOption.NEWEST);
 
 // Statistics
 const totalJokes = computed(() => savedJokes.value.length);
 const averageRating = computed(() => {
-  const ratedJokes = savedJokes.value.filter(
-    (joke) => joke.rating && joke.rating > 0
-  );
+  const ratedJokes = savedJokes.value.filter((joke) => joke.rating && joke.rating > 0);
   if (ratedJokes.length === 0) return 0;
 
   const sum = ratedJokes.reduce((total, joke) => total + (joke.rating || 0), 0);
@@ -27,8 +26,7 @@ const averageRating = computed(() => {
 // Sorting functions
 const sortByRating = (a: Joke, b: Joke) => (b.rating || 0) - (a.rating || 0);
 const sortByAlphabetical = (a: Joke, b: Joke) => a.setup.localeCompare(b.setup);
-const sortByNewest = (a: Joke, b: Joke) =>
-  (b.createdAt || 0) - (a.createdAt || 0);
+const sortByNewest = (a: Joke, b: Joke) => (b.createdAt || 0) - (a.createdAt || 0);
 
 // Apply sort based on current sort option
 const applySorting = (jokes: Joke[], option: SortOption) => {
@@ -57,8 +55,7 @@ const filterBySearch = (jokes: Joke[], searchTerm: string) => {
   const query = searchTerm.toLowerCase();
   return jokes.filter(
     (joke) =>
-      joke.setup.toLowerCase().includes(query) ||
-      joke.punchline.toLowerCase().includes(query)
+      joke.setup.toLowerCase().includes(query) || joke.punchline.toLowerCase().includes(query)
   );
 };
 
@@ -84,7 +81,7 @@ const filteredJokes = computed(() => {
 
 // Load saved jokes from localStorage on component mount
 onMounted(() => {
-  const saved = localStorage.getItem("savedJokes");
+  const saved = localStorage.getItem('savedJokes');
   if (saved) {
     try {
       savedJokes.value = JSON.parse(saved);
@@ -96,14 +93,14 @@ onMounted(() => {
       }));
       saveToLocalStorage();
     } catch (err) {
-      console.error("Failed to parse saved jokes:", err);
+      console.error('Failed to parse saved jokes:', err);
     }
   }
 });
 
 // Save jokes to localStorage whenever collection changes
 const saveToLocalStorage = () => {
-  localStorage.setItem("savedJokes", JSON.stringify(savedJokes.value));
+  localStorage.setItem('savedJokes', JSON.stringify(savedJokes.value));
 };
 
 // Remove a joke from the collection
@@ -126,13 +123,13 @@ const rateJoke = (jokeId: string, rating: number) => {
 
 // Reset all filters
 const resetFilters = () => {
-  searchQuery.value = "";
+  searchQuery.value = '';
   minRatingFilter.value = 0;
   sortOption.value = SortOption.NEWEST;
 };
 
 // Method to be exposed to parent components
-const addJoke = (joke: Omit<Joke, "id">) => {
+const addJoke = (joke: Omit<Joke, 'id'>) => {
   // Generate a unique ID using timestamp
   const id = `joke_${Date.now()}`;
   const newJoke: Joke = {
@@ -144,9 +141,7 @@ const addJoke = (joke: Omit<Joke, "id">) => {
 
   // Check if joke already exists (based on setup and punchline)
   const exists = savedJokes.value.some(
-    (existingJoke) =>
-      existingJoke.setup === joke.setup &&
-      existingJoke.punchline === joke.punchline
+    (existingJoke) => existingJoke.setup === joke.setup && existingJoke.punchline === joke.punchline
   );
 
   if (!exists) {
@@ -166,14 +161,10 @@ defineExpose({
 
 <template>
   <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mt-8"
+    class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mt-8 max-w-full mx-auto"
   >
-    <div
-      class="flex sm:flex-row flex-col space-y-3 sm:space-y-0 justify-between items-center mb-6"
-    >
-      <h2
-        class="text-xl font-semibold text-gray-900 dark:text-white flex items-center"
-      >
+    <div class="flex sm:flex-row flex-col space-y-3 sm:space-y-0 justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
         <Icon icon="mdi:emoticon" class="mr-2" width="24" height="24" />
         Your Saved Jokes
       </h2>
@@ -184,10 +175,7 @@ defineExpose({
           <Icon icon="mdi:counter" class="mr-1" width="16" height="16" />
           Total jokes: <span class="font-medium ml-1">{{ totalJokes }}</span>
         </p>
-        <p
-          v-if="averageRating > 0"
-          class="flex items-center justify-center sm:justify-end"
-        >
+        <p v-if="averageRating > 0" class="flex items-center justify-center sm:justify-end">
           <Icon icon="mdi:star-half-full" class="mr-1" width="16" height="16" />
           Average rating:
           <span class="font-medium ml-1">{{ averageRating }} ★</span>
@@ -196,7 +184,7 @@ defineExpose({
     </div>
 
     <!-- Search and filters -->
-    <div class="mb-6 space-y-4" v-if="!isEmpty">
+    <div v-if="!isEmpty" class="mb-6 space-y-4">
       <!-- Search -->
       <div>
         <label
@@ -207,9 +195,9 @@ defineExpose({
           <span>Search</span>
         </label>
         <input
-          type="text"
           id="search"
           v-model="searchQuery"
+          type="text"
           placeholder="Search jokes..."
           class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         />
@@ -263,8 +251,8 @@ defineExpose({
       <!-- Reset filters -->
       <div class="flex justify-end">
         <button
-          @click="resetFilters"
           class="text-sm px-3 py-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center hover:cursor-pointer"
+          @click="resetFilters"
         >
           <Icon icon="mdi:refresh" class="mr-1" width="16" height="16" />
           Reset Filters
@@ -273,19 +261,10 @@ defineExpose({
     </div>
 
     <!-- Empty state -->
-    <div
-      v-if="isEmpty"
-      class="py-4 text-center text-gray-500 dark:text-gray-400"
-    >
-      <Icon
-        icon="mdi:emoticon-sad-outline"
-        class="mx-auto mb-2"
-        width="48"
-        height="48"
-      />
+    <div v-if="isEmpty" class="py-4 text-center text-gray-500 dark:text-gray-400">
+      <Icon icon="mdi:emoticon-sad-outline" class="mx-auto mb-2" width="48" height="48" />
       <p>
-        You haven't saved any jokes yet. Use the "Save Joke" button when viewing
-        jokes you like.
+        You haven't saved any jokes yet. Use the "Save Joke" button when viewing jokes you like.
       </p>
     </div>
 
@@ -294,16 +273,11 @@ defineExpose({
       v-else-if="filteredJokes.length === 0"
       class="py-4 text-center text-gray-500 dark:text-gray-400"
     >
-      <Icon
-        icon="mdi:magnify-empty"
-        class="mx-auto mb-2"
-        width="48"
-        height="48"
-      />
+      <Icon icon="mdi:magnify-empty" class="mx-auto mb-2" width="48" height="48" />
       <p>No jokes match your search criteria. Try adjusting your filters.</p>
       <button
-        @click="resetFilters"
         class="mt-2 px-4 py-2 text-indigo-600 font-medium dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center justify-center mx-auto"
+        @click="resetFilters"
       >
         <Icon icon="mdi:refresh" class="mr-1" width="16" height="16" />
         Reset Filters
@@ -312,69 +286,13 @@ defineExpose({
 
     <!-- Jokes list -->
     <div v-else class="space-y-4">
-      <div
+      <JokeCollectionItem
         v-for="joke in filteredJokes"
         :key="joke.id"
-        class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg relative"
-      >
-        <div class="flex sm:flex-row flex-col justify-between">
-          <p class="text-gray-700 dark:text-gray-300 font-medium mb-2">
-            {{ joke.setup }}
-          </p>
-          <div class="flex gap-4 mb-2">
-            <span
-              class="text-xs font-medium text-indigo-600 dark:text-indigo-300 flex items-center"
-            >
-              <Icon
-                :icon="
-                  joke.type === 'programming'
-                    ? 'mdi:code-tags'
-                    : 'mdi:format-quote-close'
-                "
-                class="mr-1"
-                width="14"
-                height="14"
-              />
-              {{ joke.type === "programming" ? "Programming" : "Random" }}
-            </span>
-            <button
-              @click="removeJoke(joke.id)"
-              class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 hover:cursor-pointer"
-              aria-label="Remove joke"
-            >
-              <Icon icon="mdi:trash-can-outline" width="16" height="16" />
-            </button>
-          </div>
-        </div>
-        <p class="text-gray-900 dark:text-white font-bold mb-4">
-          {{ joke.punchline }}
-        </p>
-
-        <!-- Rating stars -->
-        <div class="flex items-center mt-2">
-          <span
-            class="text-sm text-gray-600 dark:text-gray-400 mr-2 flex items-center"
-          >
-            <Icon icon="mdi:star" class="mr-1" width="16" height="16" />
-            Rating:
-          </span>
-          <div class="flex">
-            <button
-              v-for="star in 5"
-              :key="star"
-              @click="rateJoke(joke.id, star)"
-              class="focus:outline-none mr-1 hover:cursor-pointer"
-              :class="{
-                'text-yellow-400': star <= (joke.rating || 0),
-                'text-gray-300 dark:text-gray-600': star > (joke.rating || 0),
-              }"
-              :aria-label="`Rate ${star} stars`"
-            >
-              <Icon icon="mdi:star" width="20" height="20" />
-            </button>
-          </div>
-        </div>
-      </div>
+        :joke="joke"
+        @remove="removeJoke"
+        @rate="rateJoke"
+      />
     </div>
   </div>
 </template>

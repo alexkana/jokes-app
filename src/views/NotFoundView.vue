@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import MainLayout from '../layouts/MainLayout.vue'
-import { Icon } from '@iconify/vue'
+import { Icon } from '@iconify/vue';
 </script>
 
 <template>

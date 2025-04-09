@@ -4,5 +4,5 @@
 export enum SortOption {
   NEWEST = 'newest',
   RATING = 'rating',
-  ALPHABETICAL = 'alphabetical'
-} 
+  ALPHABETICAL = 'alphabetical',
+}

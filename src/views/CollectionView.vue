@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import JokeCollection from '../components/JokeCollection.vue'
-import { Icon } from '@iconify/vue'
+import JokeCollection from '@components/JokeCollection.vue';
+import { Icon } from '@iconify/vue';
 </script>
 
 <template>
