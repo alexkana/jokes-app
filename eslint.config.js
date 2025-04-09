@@ -1,16 +1,15 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import pluginVue from 'eslint-plugin-vue'
-import typescriptParser from '@typescript-eslint/parser'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import prettierPlugin from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
-import vueParser from 'vue-eslint-parser'
+import js from '@eslint/js';
+import globals from 'globals';
+import pluginVue from 'eslint-plugin-vue';
+import typescriptParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import vueParser from 'vue-eslint-parser';
 
 export default [
   // Basic JS configuration
   js.configs.recommended,
-  prettierConfig,
+  skipFormatting,
   {
     languageOptions: {
       globals: {
@@ -30,7 +29,6 @@ export default [
     files: ['**/*.vue'],
     plugins: {
       vue: pluginVue,
-      prettier: prettierPlugin,
     },
     languageOptions: {
       parser: vueParser,
@@ -60,7 +58,6 @@ export default [
           destructuredArrayIgnorePattern: '^_',
         },
       ],
-      'prettier/prettier': 'error',
     },
   },
   // TypeScript configuration
@@ -68,7 +65,6 @@ export default [
     files: ['**/*.ts', '**/*.tsx'],
     plugins: {
       '@typescript-eslint': tsPlugin,
-      prettier: prettierPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
@@ -80,7 +76,6 @@ export default [
           destructuredArrayIgnorePattern: '^_',
         },
       ],
-      'prettier/prettier': 'error',
     },
   },
   // Global ignore patterns
@@ -89,13 +84,9 @@ export default [
   },
   // Global rules
   {
-    plugins: {
-      prettier: prettierPlugin,
-    },
     rules: {
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-      'prettier/prettier': 'error',
     },
   },
-]
+];
