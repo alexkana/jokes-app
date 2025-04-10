@@ -1,9 +1,5 @@
 import { type JokeInput } from '@interfaces';
-
-const API_ENDPOINTS = {
-  RANDOM: 'https://official-joke-api.appspot.com/jokes/random',
-  PROGRAMMING: 'https://official-joke-api.appspot.com/jokes/programming/random',
-};
+import { API_ENDPOINTS } from '@constants';
 
 /**
  * Fetches a random joke of the specified type

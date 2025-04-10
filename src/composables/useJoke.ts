@@ -1,8 +1,9 @@
 import { ref, watch } from 'vue';
 import { type JokeInput } from '@interfaces';
 import { fetchJoke } from '@services/jokesService';
-import { saveJoke as saveJokeToStorage } from '../services/jokeStorageService';
+import { saveJoke as saveJokeToStorage } from '@services/jokeStorageService';
 import { useTextAnimation } from './useTextAnimation';
+import { ANIMATION } from '@constants';
 
 export function useJoke() {
   // State variables
@@ -69,10 +70,10 @@ export function useJoke() {
       text: result.message,
     };
 
-    // Clear message after 3 seconds
+    // Clear message after a delay
     setTimeout(() => {
       saveMessage.value = null;
-    }, 3000);
+    }, ANIMATION.FADE_DURATION * 6); // 3 seconds
   };
 
   return {

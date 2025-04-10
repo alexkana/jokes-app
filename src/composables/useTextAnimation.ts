@@ -1,6 +1,7 @@
 import { ref } from 'vue';
+import { ANIMATION } from '@constants';
 
-export function useTextAnimation(typingSpeed = 30) {
+export function useTextAnimation(typingSpeed = ANIMATION.TYPING_SPEED) {
   const displayedText = ref('');
   const isTyping = ref(false);
 
@@ -25,7 +26,7 @@ export function useTextAnimation(typingSpeed = 30) {
           }, 300);
         }
       }, typingSpeed);
-    }, 500); // 500ms delay before typing starts
+    }, ANIMATION.FADE_DURATION); // Delay before typing starts
   };
 
   return {
