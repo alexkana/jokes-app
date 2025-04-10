@@ -21,7 +21,13 @@
       "@utils/*": ["./src/utils/*"],
       "@assets/*": ["./src/assets/*"],
       "@styles/*": ["./src/styles/*"],
-      "@types/*": ["./src/types/*"]
+      "@services/*": ["./src/services/*"],
+      "@types/*": ["./src/types/*"],
+      "@composables/*": ["./src/composables/*"],
+      "@interfaces": ["./src/interfaces"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@constants": ["./src/constants"],
+      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]

@@ -20,6 +20,10 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, './src/assets'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@types': path.resolve(__dirname, './src/types'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@composables': path.resolve(__dirname, './src/composables'),
+      '@interfaces': path.resolve(__dirname, './src/interfaces'),
+      '@constants': path.resolve(__dirname, './src/constants'),
     },
   },
 });
