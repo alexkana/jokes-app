@@ -13,6 +13,7 @@ export function useJoke() {
   const isPunchlineRevealed = ref(false);
   const jokeType = ref<'random' | 'programming'>('random');
   const saveMessage = ref<{ type: 'success' | 'info'; text: string } | null>(null);
+  const isCurrentJokeSaved = ref(false);
 
   // Use the text animation composable
   const {
@@ -37,6 +38,7 @@ export function useJoke() {
     error.value = null;
     isPunchlineRevealed.value = false;
     saveMessage.value = null;
+    isCurrentJokeSaved.value = false;
 
     try {
       joke.value = await fetchJoke(jokeType.value);
@@ -64,6 +66,7 @@ export function useJoke() {
     if (!joke.value) return;
 
     const result = saveJokeToStorage(joke.value);
+    isCurrentJokeSaved.value = result.success;
 
     saveMessage.value = {
       type: result.success ? 'success' : 'info',
@@ -86,6 +89,7 @@ export function useJoke() {
     saveMessage,
     displayedPunchline,
     isTypingPunchline,
+    isCurrentJokeSaved,
 
     // Methods
     getJoke,
