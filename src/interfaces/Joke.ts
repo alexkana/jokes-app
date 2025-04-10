@@ -1,6 +1,6 @@
 export interface Joke extends JokeInput {
   id: string;
-  rating?: number; // 1-5 stars
+  rating: number; // 1-5 stars
   createdAt: number; // timestamp for sorting by date
 }
 
