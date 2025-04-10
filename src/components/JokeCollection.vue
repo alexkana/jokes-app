@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { type Joke, SortOption } from '@interfaces';
+import { type Joke } from '@interfaces';
 import { Icon } from '@iconify/vue';
 import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 import JokeFilters from '@components/JokeFilters.vue';
 import { useJokeFilters } from '@composables/useJokeFilters';
-import { STORAGE_KEYS } from '@constants';
+import { STORAGE_KEYS } from '@/constants';
 import { saveToLocalStorage } from '@services/jokeStorageService';
 
 // State for saved jokes collection

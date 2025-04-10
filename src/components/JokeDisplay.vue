@@ -2,6 +2,8 @@
 import { onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useJoke } from '@composables/useJoke';
+import InfoMessage from '@/components/InfoMessage.vue';
+import type { Message } from '@/interfaces';
 
 // Use the joke composable
 const {
@@ -13,6 +15,7 @@ const {
   saveMessage,
   displayedPunchline,
   isTypingPunchline,
+  isCurrentJokeSaved,
   getJoke,
   toggleJokeType,
   revealPunchline,
@@ -30,7 +33,7 @@ onMounted(() => {
     class="max-w-md mx-auto dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden md:max-w-2xl p-6"
   >
     <div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+      <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
         <Icon
           :icon="jokeType === 'programming' ? 'mdi:code-tags' : 'mdi:emoticon'"
           class="mr-2"
@@ -41,6 +44,7 @@ onMounted(() => {
       </h2>
       <button
         class="w-auto text-sm sm:text-base font-bold cursor-pointer px-3 py-1.5 sm:px-4 sm:py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center justify-center"
+        aria-label="Switch joke type"
         @click="toggleJokeType"
       >
         <Icon
@@ -54,24 +58,7 @@ onMounted(() => {
     </div>
 
     <!-- Save message -->
-    <div
-      v-if="saveMessage"
-      class="mb-4 p-3 rounded-md flex items-center"
-      :class="{
-        'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-100':
-          saveMessage.type === 'success',
-        'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-100':
-          saveMessage.type === 'info',
-      }"
-    >
-      <Icon
-        :icon="saveMessage.type === 'success' ? 'mdi:check-circle' : 'mdi:information'"
-        class="mr-2"
-        width="20"
-        height="20"
-      />
-      {{ saveMessage.text }}
-    </div>
+    <InfoMessage v-if="saveMessage" :message="saveMessage" />
 
     <!-- Loading state -->
     <div v-if="isLoading" class="flex justify-center items-center py-12">
@@ -84,16 +71,11 @@ onMounted(() => {
     </div>
 
     <!-- Error state -->
-    <div
-      v-else-if="error"
-      class="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 p-4 rounded-md flex flex-col items-center"
-    >
-      <div class="flex items-center gap-2">
-        <Icon icon="mdi:alert" width="24" height="24" />
-        <p class="font-bold">{{ error }}</p>
-      </div>
+    <div v-else-if="error" class="flex flex-col items-center">
+      <InfoMessage :message="{ text: error, type: 'error' } as Message" />
       <button
         class="mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center"
+        aria-label="Try again"
         @click="getJoke"
       >
         <Icon icon="mdi:refresh" class="mr-1" width="16" height="16" />
@@ -104,20 +86,20 @@ onMounted(() => {
     <!-- Joke display -->
     <div v-else-if="joke" class="space-y-6">
       <!-- Setup -->
-      <div class="text-lg text-gray-700 dark:text-gray-300">
-        <p class="font-medium">{{ joke.setup }}</p>
+      <div class="text-base sm:text-lg text-gray-700 dark:text-gray-300">
+        <p class="font-medium text-center sm:text-left">{{ joke.setup }}</p>
       </div>
 
       <!-- Punchline (hidden initially) -->
       <div
         v-if="isPunchlineRevealed"
-        class="text-lg text-gray-900 dark:text-white font-bold transition-all duration-500 ease-in-out p-3 rounded-md"
+        class="text-base sm:text-lg text-gray-900 dark:text-white font-bold transition-all duration-500 ease-in-out p-3 rounded-md"
         :class="{
           'opacity-100 bg-yellow-50 dark:bg-gray-700 shadow-sm': isPunchlineRevealed,
           'opacity-0': !isPunchlineRevealed,
         }"
       >
-        <p class="relative break-words">
+        <p class="relative break-words text-center sm:text-left">
           {{ displayedPunchline
           }}<span
             v-if="isTypingPunchline"
@@ -129,12 +111,13 @@ onMounted(() => {
       <!-- Controls -->
       <div class="flex justify-center pt-4">
         <button
-          v-if="!isPunchlineRevealed"
-          class="w-full sm:w-auto font-bold cursor-pointer px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center sm:justify-start"
+          v-if="!isPunchlineRevealed"          
+          class="w-auto text-sm sm:text-base font-bold cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-green-400 flex items-center justify-center gap-2"
+          aria-label="Reveal punchline"
           @click="revealPunchline"
         >
-          <Icon icon="mdi:eye" class="mr-1" width="20" height="20" />
-          Reveal Punchline
+          <Icon icon="mdi:emoticon-excited" width="20" height="20" />
+          Show Me!
         </button>
         <div
           v-else-if="!isTypingPunchline"
@@ -142,26 +125,31 @@ onMounted(() => {
           :class="{ 'opacity-100': !isTypingPunchline, 'opacity-0': isTypingPunchline }"
         >
           <button
-            class="font-bold cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+            class="text-sm sm:text-base font-bold cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center justify-center"
+            aria-label="Get another joke"
             @click="getJoke"
           >
             <Icon icon="mdi:refresh" class="mr-1" width="20" height="20" />
             Get Another Joke
           </button>
           <button
-            class="font-bold cursor-pointer px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 flex items-center justify-center"
-            @click="saveJoke"
+            class="text-sm sm:text-base font-bold px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 flex items-center justify-center"
+            :class="{
+              'cursor-pointer': !isCurrentJokeSaved,
+              'cursor-not-allowed': isCurrentJokeSaved
+            }"
+            aria-label="Save joke to collection"
+            :disabled="isCurrentJokeSaved"
+            @click="!isCurrentJokeSaved && saveJoke()"
           >
-            <Icon icon="mdi:content-save" class="mr-1" width="20" height="20" />
-            Save Joke
+            <Icon 
+              :icon="isCurrentJokeSaved ? 'mdi:check-circle' : 'mdi:bookmark'" 
+              class="mr-1" 
+              width="20" 
+              height="20" 
+            />
+            {{ isCurrentJokeSaved ? 'Joke Saved' : 'Save Joke' }}
           </button>
-        </div>
-        <div
-          v-else
-          class="flex justify-center items-center h-10 text-gray-500 dark:text-gray-400 italic transition-opacity duration-300 ease-in-out opacity-70"
-        >
-          <Icon icon="mdi:loading" class="mr-1 animate-spin" width="20" height="20" />
-          <span>Finishing up...</span>
         </div>
       </div>
     </div>
