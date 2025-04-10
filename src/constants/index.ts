@@ -22,7 +22,7 @@ export const DEFAULTS = {
 export const ANIMATION = {
   TYPING_SPEED: 25,
   FADE_DURATION: 500,
-}; 
+};
 
 // Delay timings (in ms)
 export const DELAY = {

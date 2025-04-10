@@ -1,113 +1,49 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { Joke, SortOption } from '@/interfaces';
+import { type Joke, SortOption } from '@interfaces';
 import { Icon } from '@iconify/vue';
 import JokeCollectionItem from '@components/JokeCollectionItem.vue';
+import { useJokeFilters } from '@composables/useJokeFilters';
+import { STORAGE_KEYS } from '@constants';
+import { removeJoke, saveToLocalStorage } from '@services/jokeStorageService';
 
 // State for saved jokes collection
 const savedJokes = ref<Joke[]>([]);
 const isEmpty = computed(() => savedJokes.value.length === 0);
 
-// Search and filter state
-const searchQuery = ref('');
-const minRatingFilter = ref(0);
-const sortOption = ref<SortOption>(SortOption.NEWEST);
+// Use the filters composable
+const { 
+  searchQuery, 
+  minRatingFilter, 
+  sortOption, 
+  filteredJokes, 
+  resetFilters 
+} = useJokeFilters(savedJokes);
 
 // Statistics
 const totalJokes = computed(() => savedJokes.value.length);
 const averageRating = computed(() => {
-  const ratedJokes = savedJokes.value.filter((joke) => joke.rating && joke.rating > 0);
+  const ratedJokes = savedJokes.value.filter((joke) => {
+    return joke.rating && joke.rating > 0;
+  });
   if (ratedJokes.length === 0) return 0;
 
   const sum = ratedJokes.reduce((total, joke) => total + (joke.rating || 0), 0);
   return (sum / ratedJokes.length).toFixed(1);
 });
 
-// Sorting functions
-const sortByRating = (a: Joke, b: Joke) => (b.rating || 0) - (a.rating || 0);
-const sortByAlphabetical = (a: Joke, b: Joke) => a.setup.localeCompare(b.setup);
-const sortByNewest = (a: Joke, b: Joke) => (b.createdAt || 0) - (a.createdAt || 0);
-
-// Apply sort based on current sort option
-const applySorting = (jokes: Joke[], option: SortOption) => {
-  const jokesCopy = [...jokes];
-
-  switch (option) {
-    case SortOption.RATING:
-      jokesCopy.sort(sortByRating);
-      break;
-    case SortOption.ALPHABETICAL:
-      jokesCopy.sort(sortByAlphabetical);
-      break;
-    case SortOption.NEWEST:
-    default:
-      jokesCopy.sort(sortByNewest);
-      break;
-  }
-
-  return jokesCopy;
-};
-
-// Filter functions
-const filterBySearch = (jokes: Joke[], searchTerm: string) => {
-  if (!searchTerm.trim()) return jokes;
-
-  const query = searchTerm.toLowerCase();
-  return jokes.filter(
-    (joke) =>
-      joke.setup.toLowerCase().includes(query) || joke.punchline.toLowerCase().includes(query)
-  );
-};
-
-const filterByRating = (jokes: Joke[], minRating: number) => {
-  if (minRating <= 0) return jokes;
-
-  return jokes.filter((joke) => (joke.rating || 0) >= minRating);
-};
-
-// Filtered and sorted jokes
-const filteredJokes = computed(() => {
-  let result = [...savedJokes.value];
-
-  // Apply filters
-  result = filterBySearch(result, searchQuery.value);
-  result = filterByRating(result, minRatingFilter.value);
-
-  // Apply sorting
-  result = applySorting(result, sortOption.value);
-
-  return result;
-});
-
 // Load saved jokes from localStorage on component mount
 onMounted(() => {
-  const saved = localStorage.getItem('savedJokes');
+  const saved = localStorage.getItem(STORAGE_KEYS.SAVED_JOKES);
   if (saved) {
     try {
       savedJokes.value = JSON.parse(saved);
-      // Ensure all jokes have a rating property
-      savedJokes.value = savedJokes.value.map((joke) => ({
-        ...joke,
-        rating: joke.rating || 0,
-        createdAt: joke.createdAt || Date.now(),
-      }));
-      saveToLocalStorage();
     } catch (err) {
       console.error('Failed to parse saved jokes:', err);
     }
   }
 });
 
-// Save jokes to localStorage whenever collection changes
-const saveToLocalStorage = () => {
-  localStorage.setItem('savedJokes', JSON.stringify(savedJokes.value));
-};
-
-// Remove a joke from the collection
-const removeJoke = (jokeId: string) => {
-  savedJokes.value = savedJokes.value.filter((joke) => joke.id !== jokeId);
-  saveToLocalStorage();
-};
 
 // Rate a joke
 const rateJoke = (jokeId: string, rating: number) => {
@@ -117,46 +53,19 @@ const rateJoke = (jokeId: string, rating: number) => {
       ...savedJokes.value[jokeIndex],
       rating,
     };
-    saveToLocalStorage();
+    saveToLocalStorage(savedJokes.value);
   }
 };
 
-// Reset all filters
-const resetFilters = () => {
-  searchQuery.value = '';
-  minRatingFilter.value = 0;
-  sortOption.value = SortOption.NEWEST;
+// Remove a joke
+const removeJoke = (jokeId: string) => {
+  // Update the local state first (for immediate UI response)
+  savedJokes.value = savedJokes.value.filter(joke => joke.id !== jokeId);
+  
+  // Then persist to storage
+  saveToLocalStorage(savedJokes.value);
 };
 
-// Method to be exposed to parent components
-const addJoke = (joke: Omit<Joke, 'id'>) => {
-  // Generate a unique ID using timestamp
-  const id = `joke_${Date.now()}`;
-  const newJoke: Joke = {
-    ...joke,
-    id,
-    rating: 0,
-    createdAt: Date.now(),
-  };
-
-  // Check if joke already exists (based on setup and punchline)
-  const exists = savedJokes.value.some(
-    (existingJoke) => existingJoke.setup === joke.setup && existingJoke.punchline === joke.punchline
-  );
-
-  if (!exists) {
-    savedJokes.value.push(newJoke);
-    saveToLocalStorage();
-    return true;
-  }
-
-  return false;
-};
-
-// Expose methods to parent components
-defineExpose({
-  addJoke,
-});
 </script>
 
 <template>
@@ -290,7 +199,7 @@ defineExpose({
         v-for="joke in filteredJokes"
         :key="joke.id"
         :joke="joke"
-        @remove="removeJoke"
+        @remove="removeJoke(joke.id)"
         @rate="rateJoke"
       />
     </div>
