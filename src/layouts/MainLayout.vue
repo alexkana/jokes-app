@@ -1,25 +1,14 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { RouterLink, useRoute } from "vue-router";
-import Navbar from "../components/Navbar.vue";
-const route = useRoute();
-
-// Compute the current route description from meta
-const routeDescription = computed(() => {
-  return route.meta.description as string || '';
-});
-
+import Navbar from '@components/Navbar.vue';
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+  <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
     <!-- Navigation -->
     <Navbar />
-    <div class="flex">
-      <!-- Main content -->
-      <main class="flex-1 p-6">
-        <slot></slot>
-      </main>
-    </div>
+    <!-- Main content -->
+    <main class="w-full p-6">
+      <slot></slot>
+    </main>
   </div>
 </template>
