@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import JokeDisplay from '@components/JokeDisplay.vue';
+import JokeCard from '@/components/JokeCard.vue';
 import { Icon } from '@iconify/vue';
 </script>
 
@@ -19,7 +19,7 @@ import { Icon } from '@iconify/vue';
       </p>
 
       <!-- Joke Discovery Component -->
-      <JokeDisplay />
+      <JokeCard />
 
       <div class="mt-8 text-center">
         <p class="text-gray-600 dark:text-gray-400 mb-3 flex items-center justify-center">
