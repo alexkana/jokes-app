@@ -5,20 +5,15 @@ import { Icon } from '@iconify/vue';
 import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 import { useJokeFilters } from '@composables/useJokeFilters';
 import { STORAGE_KEYS } from '@constants';
-import { removeJoke, saveToLocalStorage } from '@services/jokeStorageService';
+import { saveToLocalStorage } from '@services/jokeStorageService';
 
 // State for saved jokes collection
 const savedJokes = ref<Joke[]>([]);
 const isEmpty = computed(() => savedJokes.value.length === 0);
 
 // Use the filters composable
-const { 
-  searchQuery, 
-  minRatingFilter, 
-  sortOption, 
-  filteredJokes, 
-  resetFilters 
-} = useJokeFilters(savedJokes);
+const { searchQuery, minRatingFilter, sortOption, filteredJokes, resetFilters } =
+  useJokeFilters(savedJokes);
 
 // Statistics
 const totalJokes = computed(() => savedJokes.value.length);
@@ -31,19 +26,6 @@ const averageRating = computed(() => {
   const sum = ratedJokes.reduce((total, joke) => total + (joke.rating || 0), 0);
   return (sum / ratedJokes.length).toFixed(1);
 });
-
-// Load saved jokes from localStorage on component mount
-onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEYS.SAVED_JOKES);
-  if (saved) {
-    try {
-      savedJokes.value = JSON.parse(saved);
-    } catch (err) {
-      console.error('Failed to parse saved jokes:', err);
-    }
-  }
-});
-
 
 // Rate a joke
 const rateJoke = (jokeId: string, rating: number) => {
@@ -59,13 +41,21 @@ const rateJoke = (jokeId: string, rating: number) => {
 
 // Remove a joke
 const removeJoke = (jokeId: string) => {
-  // Update the local state first (for immediate UI response)
-  savedJokes.value = savedJokes.value.filter(joke => joke.id !== jokeId);
-  
-  // Then persist to storage
+  savedJokes.value = savedJokes.value.filter((joke) => joke.id !== jokeId);
   saveToLocalStorage(savedJokes.value);
 };
 
+// Load saved jokes from localStorage on component mount
+onMounted(() => {
+  const saved = localStorage.getItem(STORAGE_KEYS.SAVED_JOKES);
+  if (saved) {
+    try {
+      savedJokes.value = JSON.parse(saved);
+    } catch (err) {
+      console.error('Failed to parse saved jokes:', err);
+    }
+  }
+});
 </script>
 
 <template>
