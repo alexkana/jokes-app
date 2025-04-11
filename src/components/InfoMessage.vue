@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <div
     v-if="message"
-    class="mb-4 p-3 rounded-md inline-flex items-center font-bold text-sm sm:text-base"
+    class="mb-4 p-3 rounded-md inline-flex items-center font-bold text-sm sm:text-base w-full"
     :class="{
       'bg-green-900 text-green-100': message.type === 'success',
       'bg-blue-900 text-blue-100': message.type === 'info',

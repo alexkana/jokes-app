@@ -19,7 +19,7 @@ const activePage = computed(() => {
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
             <RouterLink to="/" class="text-xl font-bold text-white flex items-center">
-              <Icon icon="mdi:emoticon-cool" class="mr-2" width="28" height="28" />
+              <Icon icon="fa-solid:laugh-beam" class="mr-2" width="24" height="24" />
               Jokes App
             </RouterLink>
           </div>

@@ -113,7 +113,7 @@ onMounted(() => {
         </div>
 
         <!-- Controls -->
-        <div class="flex justify-center pt-4">
+        <div class="flex justify-center sm:pt-4 pt-2">
           <button
             v-if="!isPunchlineRevealed"
             class="w-auto text-sm sm:text-base font-bold cursor-pointer px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-green-400 flex items-center justify-center gap-2"

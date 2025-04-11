@@ -14,7 +14,6 @@ import { useToast } from 'vue-toastification';
 const savedJokes = ref<Joke[]>([]);
 const isEmpty = computed(() => savedJokes.value.length === 0);
 const errorMessage = ref('');
-
 const toast = useToast();
 
 // Use the filters composable
@@ -47,21 +46,22 @@ const rateJoke = (jokeId: string, rating: number) => {
 
 // Remove a joke
 const removeJoke = (jokeId: string) => {
-  const joke = savedJokes.value.find((joke) => joke.id === jokeId);
+  const joke = savedJokes.value.find(joke => joke.id === jokeId);
   savedJokes.value = savedJokes.value.filter((joke) => joke.id !== jokeId);
   saveToLocalStorage(savedJokes.value);
-
+  
   if (joke) {
-    const truncatedSetup =
-      joke.setup.length > 50 ? joke.setup.substring(0, 50) + '...' : joke.setup;
-
+    const truncatedSetup = joke.setup.length > 50 
+      ? joke.setup.substring(0, 50) + '...' 
+      : joke.setup;
+      
     toast.success(`Removed: "${truncatedSetup}"`, {
-      icon: h(Icon, {
-        icon: 'mdi:delete',
-        width: '20',
-        height: '20',
+      icon: h(Icon, { 
+        icon: "mdi:delete",
+        width: "20",
+        height: "20"
       }),
-      timeout: 3000,
+      timeout: 3000, 
       closeOnClick: true,
     });
   }
@@ -74,8 +74,8 @@ onMounted(() => {
     try {
       savedJokes.value = JSON.parse(saved);
     } catch (err) {
-      console.error('Failed to parse saved jokes:', err);
       errorMessage.value = 'Failed to load saved jokes. Please try again later.';
+      console.error('Failed to parse saved jokes:', err);
     }
   }
 });
