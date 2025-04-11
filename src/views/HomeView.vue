@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import JokeCard from '@/components/JokeCard.vue';
+import PageHeader from '@/components/PageHeader.vue';
 import { Icon } from '@iconify/vue';
 import { RouterLink } from 'vue-router';
 </script>
@@ -7,15 +8,12 @@ import { RouterLink } from 'vue-router';
 <template>
   <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6 flex items-center">
-        <Icon icon="mdi:emoticon-cool" class="mr-2" width="32" height="32" />
-        Welcome to Jokes App
-      </h1>
-      <p class="text-base sm:text-lg text-gray-300 mb-8 flex items-center">
-        <Icon icon="mdi:lightbulb-on" class="mr-2 flex-shrink-0" width="24" height="24" />
-        Discover random and programming jokes with our joke discovery tool. Click "Reveal Punchline"
-        to see the punchline!
-      </p>
+      <PageHeader
+        title="Welcome to Jokes App"
+        description="Discover random and programming jokes with our joke discovery tool. Click 'Reveal Punchline' to see the punchline!"
+        icon="mdi:emoticon-cool"
+        descriptionIcon="mdi:lightbulb-on"
+      />
 
       <!-- Joke Discovery Component -->
       <JokeCard />

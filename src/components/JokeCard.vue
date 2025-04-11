@@ -46,6 +46,8 @@ onMounted(() => {
         <button
           class="w-auto text-sm sm:text-base font-bold cursor-pointer px-3 py-1.5 sm:px-4 sm:py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center justify-center"
           aria-label="Switch joke type"
+          :disabled="isLoading"
+          :class="{ 'opacity-50 cursor-not-allowed': isLoading }"
           @click="toggleJokeType"
         >
           <Icon
@@ -54,7 +56,7 @@ onMounted(() => {
             width="20"
             height="20"
           />
-          Switch
+          Switch type
         </button>
       </div>
     </div>
@@ -91,7 +93,9 @@ onMounted(() => {
       <div v-else-if="joke" class="space-y-6">
         <!-- Setup -->
         <div class="text-base sm:text-lg text-gray-300">
-          <p class="font-medium text-center sm:text-left">{{ joke.setup }}</p>
+          <p class="font-medium text-center sm:text-left">
+            {{ joke.setup }}
+          </p>
         </div>
 
         <!-- Punchline (hidden initially) -->
