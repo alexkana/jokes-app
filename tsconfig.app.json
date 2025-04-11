@@ -22,7 +22,6 @@
       "@assets/*": ["./src/assets/*"],
       "@styles/*": ["./src/styles/*"],
       "@services/*": ["./src/services/*"],
-      "@types/*": ["./src/types/*"],
       "@composables/*": ["./src/composables/*"],
       "@interfaces": ["./src/interfaces"],
       "@interfaces/*": ["./src/interfaces/*"],

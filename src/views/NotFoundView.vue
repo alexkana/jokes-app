@@ -14,8 +14,8 @@ import { Icon } from '@iconify/vue';
             height="120"
           />
         </div>
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">404 - Page Not Found</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+        <h1 class="text-4xl font-bold text-white mb-4">404 - Page Not Found</h1>
+        <p class="text-xl text-gray-300 mb-8">
           Oops! The page you're looking for doesn't exist or has been moved.
         </p>
         <router-link

@@ -1,13 +1,12 @@
-import { type Joke, type JokeInput } from '@interfaces';
-
-const STORAGE_KEY = 'savedJokes';
+import { type Joke, type ApiJoke } from '@interfaces';
+import { STORAGE_KEYS, DEFAULTS } from '@constants';
 
 /**
  * Checks if a joke already exists in storage
  * @param joke The joke to check
  * @returns Whether the joke exists
  */
-export function jokeExists(joke: JokeInput): boolean {
+export function jokeExists(joke: ApiJoke): boolean {
   const jokes = getJokes();
   return jokes.some((j) => j.setup === joke.setup && j.punchline === joke.punchline);
 }
@@ -17,7 +16,7 @@ export function jokeExists(joke: JokeInput): boolean {
  * @returns Array of saved jokes
  */
 export function getJokes(): Joke[] {
-  const collection = localStorage.getItem(STORAGE_KEY);
+  const collection = localStorage.getItem(STORAGE_KEYS.SAVED_JOKES);
   return collection ? JSON.parse(collection) : [];
 }
 
@@ -26,15 +25,13 @@ export function getJokes(): Joke[] {
  * @param joke The joke to save
  * @returns An object with success status and message
  */
-export function saveJoke(joke: JokeInput): { success: boolean; message: string } {
+export function saveJoke(joke: ApiJoke): { success: boolean; message: string } {
   if (!joke) {
     return {
       success: false,
       message: 'No joke to save',
     };
   }
-
-  const jokes = getJokes();
 
   // Check if joke already exists
   if (jokeExists(joke)) {
@@ -44,21 +41,31 @@ export function saveJoke(joke: JokeInput): { success: boolean; message: string }
     };
   }
 
+  const jokes = getJokes();
+
   // Add the joke
   const newJoke: Joke = {
     id: `joke_${Date.now()}`,
     setup: joke.setup,
     punchline: joke.punchline,
     type: joke.type,
-    rating: 0, // Default rating (unrated)
+    rating: DEFAULTS.JOKE_RATING,
     createdAt: Date.now(), // Timestamp for sorting
   };
 
   jokes.push(newJoke);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(jokes));
+  localStorage.setItem(STORAGE_KEYS.SAVED_JOKES, JSON.stringify(jokes));
 
   return {
     success: true,
     message: 'Joke saved to your collection!',
   };
 }
+
+/**
+ * Saves the collection of saved jokes to localStorage
+ * @param savedJokes The collection of saved jokes
+ */
+export const saveToLocalStorage = (savedJokes: Joke[]) => {
+  localStorage.setItem(STORAGE_KEYS.SAVED_JOKES, JSON.stringify(savedJokes));
+};

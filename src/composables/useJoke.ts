@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue';
-import { type JokeInput } from '@interfaces';
+import { type ApiJoke } from '@interfaces';
 import { fetchJoke } from '@services/jokesService';
 import { saveJoke as saveJokeToStorage } from '@services/jokeStorageService';
 import { useTextAnimation } from './useTextAnimation';
@@ -7,12 +7,13 @@ import { ANIMATION } from '@constants';
 
 export function useJoke() {
   // State variables
-  const joke = ref<JokeInput | null>(null);
+  const joke = ref<ApiJoke | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
   const isPunchlineRevealed = ref(false);
   const jokeType = ref<'random' | 'programming'>('random');
   const saveMessage = ref<{ type: 'success' | 'info'; text: string } | null>(null);
+  const isCurrentJokeSaved = ref(false);
 
   // Use the text animation composable
   const {
@@ -37,6 +38,7 @@ export function useJoke() {
     error.value = null;
     isPunchlineRevealed.value = false;
     saveMessage.value = null;
+    isCurrentJokeSaved.value = false;
 
     try {
       joke.value = await fetchJoke(jokeType.value);
@@ -64,6 +66,7 @@ export function useJoke() {
     if (!joke.value) return;
 
     const result = saveJokeToStorage(joke.value);
+    isCurrentJokeSaved.value = result.success;
 
     saveMessage.value = {
       type: result.success ? 'success' : 'info',
@@ -86,6 +89,7 @@ export function useJoke() {
     saveMessage,
     displayedPunchline,
     isTypingPunchline,
+    isCurrentJokeSaved,
 
     // Methods
     getJoke,
