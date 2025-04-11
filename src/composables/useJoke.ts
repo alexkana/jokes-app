@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue';
 import { type ApiJoke } from '@interfaces';
-import { fetchJoke } from '@services/jokesService';
+import { fetchJoke } from '@services/jokesApiService';
 import { saveJoke as saveJokeToStorage } from '@services/jokeStorageService';
 import { useTextAnimation } from './useTextAnimation';
 import { ANIMATION } from '@constants';
