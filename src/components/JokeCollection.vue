@@ -6,8 +6,7 @@ import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 import JokeFilters from '@components/JokeFilters.vue';
 import InfoMessage from '@components/InfoMessage.vue';
 import { useJokeFilters } from '@composables/useJokeFilters';
-import { STORAGE_KEYS } from '@/constants';
-import { saveToLocalStorage } from '@services/jokeStorageService';
+import { saveToLocalStorage, getJokes } from '@services/jokeStorageService';
 import { useToast } from 'vue-toastification';
 
 // State for saved jokes collection
@@ -69,14 +68,11 @@ const removeJoke = (jokeId: string) => {
 
 // Load saved jokes from localStorage on component mount
 onMounted(() => {
-  const saved = localStorage.getItem(STORAGE_KEYS.SAVED_JOKES);
-  if (saved) {
-    try {
-      savedJokes.value = JSON.parse(saved);
-    } catch (err) {
-      errorMessage.value = 'Failed to load saved jokes. Please try again later.';
-      console.error('Failed to parse saved jokes:', err);
-    }
+  try {
+    savedJokes.value = getJokes();
+  } catch (err) {
+    errorMessage.value = 'Failed to load saved jokes. Please try again later.';
+    console.error('Failed to parse saved jokes:', err);
   }
 });
 </script>
