@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, h } from 'vue';
 import { type Joke } from '@interfaces';
 import { Icon } from '@iconify/vue';
 import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 import JokeFilters from '@components/JokeFilters.vue';
+import InfoMessage from '@components/InfoMessage.vue';
 import { useJokeFilters } from '@composables/useJokeFilters';
 import { STORAGE_KEYS } from '@/constants';
 import { saveToLocalStorage } from '@services/jokeStorageService';
+import { useToast } from 'vue-toastification';
 
 // State for saved jokes collection
 const savedJokes = ref<Joke[]>([]);
 const isEmpty = computed(() => savedJokes.value.length === 0);
+const errorMessage = ref('');
+
+const toast = useToast();
 
 // Use the filters composable
 const { searchQuery, minRatingFilter, sortOption, filteredJokes, resetFilters } =
@@ -42,8 +47,24 @@ const rateJoke = (jokeId: string, rating: number) => {
 
 // Remove a joke
 const removeJoke = (jokeId: string) => {
+  const joke = savedJokes.value.find((joke) => joke.id === jokeId);
   savedJokes.value = savedJokes.value.filter((joke) => joke.id !== jokeId);
   saveToLocalStorage(savedJokes.value);
+
+  if (joke) {
+    const truncatedSetup =
+      joke.setup.length > 50 ? joke.setup.substring(0, 50) + '...' : joke.setup;
+
+    toast.success(`Removed: "${truncatedSetup}"`, {
+      icon: h(Icon, {
+        icon: 'mdi:delete',
+        width: '20',
+        height: '20',
+      }),
+      timeout: 3000,
+      closeOnClick: true,
+    });
+  }
 };
 
 // Load saved jokes from localStorage on component mount
@@ -54,6 +75,7 @@ onMounted(() => {
       savedJokes.value = JSON.parse(saved);
     } catch (err) {
       console.error('Failed to parse saved jokes:', err);
+      errorMessage.value = 'Failed to load saved jokes. Please try again later.';
     }
   }
 });
@@ -89,6 +111,9 @@ onMounted(() => {
       v-model:sortOption="sortOption"
       @resetAllFilters="resetFilters"
     />
+
+    <!-- Error message -->
+    <InfoMessage v-if="errorMessage" :message="{ text: errorMessage, type: 'error' }" />
 
     <!-- Empty state -->
     <div v-if="isEmpty" class="py-4 text-center text-gray-400">
