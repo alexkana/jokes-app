@@ -76,17 +76,20 @@ jokes-app/
 
 ### User Experience
 
-- **Loading States**: 
+- **Loading States**:
+
   - Implemented loading spinners during API requests
   - Provides visual feedback while fetching new jokes
   - Prevents user interaction during loading
 
 - **User Feedback**:
+
   - Clear messaging when jokes are saved or already exist in collection
-   - Disabled states for save button to prevent duplicate saves
+  - Disabled states for save button to prevent duplicate saves
   - Toast notification when removing jokes from collection
 
 - **Error Handling**:
+
   - Proper error handling for API failures:
     - Clear error messages when joke fetching fails
     - Retry button for failed API requests
@@ -94,11 +97,13 @@ jokes-app/
     - User notification when saved jokes can't be retrieved
 
 - **Animations & Interactions**:
+
   - Typewriter animation effect for punchline reveal
   - Smooth transitions between joke types
   - Interactive star rating system (1-5 stars)
 
 - **Navigation & Layout**:
+
   - Two distinct pages for better organization:
     - Home: Focus on discovering new jokes
     - Collection: Managing and organizing saved jokes

@@ -24,10 +24,10 @@ const handleRate = (id: string, rating: number) => {
 </script>
 
 <template>
-  <div class="bg-gray-700 p-4 rounded-lg">
+  <div class="bg-gray-700 p-4 rounded-lg h-[180px] sm:h-auto flex flex-col justify-between">
     <div class="flex flex-col-reverse sm:flex-row justify-between">
       <!-- Joke setup -->
-      <p class="text-sm sm:text-base text-gray-300 font-medium mb-2">
+      <p class="text-sm sm:text-base text-gray-300 font-medium mb-2 line-clamp-2 sm:line-clamp-none">
         {{ joke.setup }}
       </p>
       <div class="flex gap-4 mb-2">
@@ -54,7 +54,7 @@ const handleRate = (id: string, rating: number) => {
     </p>
 
     <!-- Rating stars -->
-    <div class="flex items-center mt-2">
+    <div class="flex items-center mt-1">
       <span class="text-sm text-gray-400 mr-2 flex items-center">
         <Icon icon="mdi:star" class="mr-1" width="16" height="16" />
         Rating:
