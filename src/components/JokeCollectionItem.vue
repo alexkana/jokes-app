@@ -49,12 +49,12 @@ const handleRate = (id: string, rating: number) => {
         </button>
       </div>
     </div>
-    <p class="text-sm sm:text-base text-white font-bold mb-4">
+    <p class="text-sm sm:text-base text-white font-bold sm:mb-4 mb-2">
       {{ joke.punchline }}
     </p>
 
     <!-- Rating stars -->
-    <div class="flex items-center mt-1">
+    <div class="flex items-center">
       <span class="text-sm text-gray-400 mr-2 flex items-center">
         <Icon icon="mdi:star" class="mr-1" width="16" height="16" />
         Rating:
