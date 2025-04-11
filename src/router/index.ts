@@ -46,7 +46,7 @@ const router = createRouter({
 
 // Update document title based on route meta
 router.beforeEach(
-  (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
     // Set the document title based on the route's meta title
     if (to.meta.title) {
       document.title = `Jokes App | ${to.meta.title as string}`;
