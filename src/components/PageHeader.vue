@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import type { PageHeaderProps } from '@/interfaces';
 
-interface Props {
-  title: string;
-  description: string;
-  icon: string;
-  descriptionIcon?: string;
-}
-
-defineProps<Props>();
+defineProps<PageHeaderProps>();
 </script>
 
 <template>

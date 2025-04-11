@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, h } from 'vue';
+import { ref, onMounted, computed, h, watch } from 'vue';
 import { type Joke } from '@interfaces';
 import { Icon } from '@iconify/vue';
 import JokeCollectionItem from '@components/JokeCollectionItem.vue';
 import JokeFilters from '@components/JokeFilters.vue';
 import InfoMessage from '@components/InfoMessage.vue';
+import Pagination from '@components/Pagination.vue';
 import { useJokeFilters } from '@composables/useJokeFilters';
+import { usePagination } from '@composables/usePagination';
 import { saveToLocalStorage, getJokes } from '@services/jokeStorageService';
 import { useToast } from 'vue-toastification';
 
@@ -16,8 +18,28 @@ const errorMessage = ref('');
 const toast = useToast();
 
 // Use the filters composable
-const { searchQuery, minRatingFilter, sortOption, filteredJokes, resetFilters } =
-  useJokeFilters(savedJokes);
+const { 
+  searchQuery, 
+  minRatingFilter, 
+  sortOption, 
+  filteredJokes,
+  resetFilters,
+} = useJokeFilters(savedJokes);
+
+// Use pagination composable
+const {
+  currentPage,
+  totalPages,
+  paginatedItems: paginatedJokes,
+  nextPage,
+  prevPage,
+  resetPage,
+} = usePagination(filteredJokes);
+
+// Reset page when filters change
+watch([searchQuery, minRatingFilter, sortOption], () => {
+  resetPage();
+});
 
 // Statistics
 const totalJokes = computed(() => savedJokes.value.length);
@@ -133,13 +155,23 @@ onMounted(() => {
     </div>
 
     <!-- Jokes list -->
-    <div v-else class="space-y-4">
-      <JokeCollectionItem
-        v-for="joke in filteredJokes"
-        :key="joke.id"
-        :joke="joke"
-        @remove="removeJoke(joke.id)"
-        @rate="rateJoke"
+    <div v-else>
+      <div class="space-y-4">
+        <JokeCollectionItem
+          v-for="joke in paginatedJokes"
+          :key="joke.id"
+          :joke="joke"
+          @remove="removeJoke(joke.id)"
+          @rate="rateJoke"
+        />
+      </div>
+      
+      <!-- Pagination -->
+      <Pagination
+        v-model:currentPage="currentPage"
+        :totalPages="totalPages"
+        @prev="prevPage"
+        @next="nextPage"
       />
     </div>
   </div>

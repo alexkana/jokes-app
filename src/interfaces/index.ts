@@ -2,3 +2,5 @@
 export * from './Joke';
 export * from './SortOption';
 export * from './Message';
+export * from './PageHeader';
+export * from './Pagination';
