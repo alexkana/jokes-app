@@ -60,25 +60,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mt-8 max-w-full mx-auto"
-  >
+  <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mt-8 w-full mx-auto">
     <div class="flex sm:flex-row flex-col space-y-3 sm:space-y-0 justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+      <h2 class="text-xl font-semibold text-white flex items-center">
         <Icon icon="mdi:emoticon" class="mr-2" width="24" height="24" />
         Your Saved Jokes
       </h2>
 
       <!-- Collection statistics -->
-      <div class="text-right text-sm text-gray-500 dark:text-gray-400">
+      <div class="text-right text-sm text-gray-400">
         <p class="flex items-center justify-center sm:justify-end">
           <Icon icon="mdi:format-list-numbered" class="mr-1" width="16" height="16" />
-          Total jokes: <span class="font-medium ml-1">{{ totalJokes }}</span>
+          Total jokes: <span class="font-bold ml-1">{{ totalJokes }}</span>
         </p>
-        <p v-if="averageRating > 0" class="flex items-center justify-center sm:justify-end">
+        <p v-if="Number(averageRating) > 0" class="flex items-center justify-center sm:justify-end">
           <Icon icon="mdi:star-half-full" class="mr-1" width="16" height="16" />
           Average rating:
-          <span class="font-medium ml-1">{{ averageRating }} ★</span>
+          <span class="font-bold ml-1">{{ averageRating }} <span class="font-normal">★</span></span>
         </p>
       </div>
     </div>
@@ -93,7 +91,7 @@ onMounted(() => {
     />
 
     <!-- Empty state -->
-    <div v-if="isEmpty" class="py-4 text-center text-gray-500 dark:text-gray-400">
+    <div v-if="isEmpty" class="py-4 text-center text-gray-400">
       <Icon icon="mdi:emoticon-sad-outline" class="mx-auto mb-2" width="48" height="48" />
       <p>
         You haven't saved any jokes yet. Use the "Save Joke" button when viewing jokes you like.
@@ -101,14 +99,12 @@ onMounted(() => {
     </div>
 
     <!-- No results after filtering -->
-    <div
-      v-else-if="filteredJokes.length === 0"
-      class="py-4 text-center text-gray-500 dark:text-gray-400"
-    >
+    <div v-else-if="filteredJokes.length === 0" class="py-4 text-center text-gray-400">
       <Icon icon="mdi:magnify-empty" class="mx-auto mb-2" width="48" height="48" />
       <p>No jokes match your search criteria. Try adjusting your filters.</p>
       <button
-        class="mt-2 px-4 py-2 text-indigo-600 font-medium dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 flex items-center justify-center mx-auto"
+        aria-label="Reset all filters"
+        class="mt-2 px-4 py-2 text-indigo-400 font-medium hover:text-indigo-300 flex items-center justify-center mx-auto"
         @click="resetFilters"
       >
         <Icon icon="mdi:refresh" class="mr-1" width="16" height="16" />

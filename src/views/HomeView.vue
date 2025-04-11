@@ -6,13 +6,11 @@ import { Icon } from '@iconify/vue';
 <template>
   <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1
-        class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center"
-      >
+      <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6 flex items-center">
         <Icon icon="mdi:emoticon-happy" class="mr-2" width="32" height="32" />
         Welcome to Jokes App
       </h1>
-      <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 flex items-center">
+      <p class="text-base sm:text-lg text-gray-300 mb-8 flex items-center">
         <Icon icon="mdi:lightbulb-on" class="mr-2 flex-shrink-0" width="24" height="24" />
         Discover random and programming jokes with our joke discovery tool. Click "Reveal Punchline"
         to see the punchline!
@@ -22,7 +20,7 @@ import { Icon } from '@iconify/vue';
       <JokeCard />
 
       <div class="mt-8 text-center">
-        <p class="text-gray-600 dark:text-gray-400 mb-3 flex items-center justify-center">
+        <p class="text-gray-400 mb-3 flex items-center justify-center">
           <Icon icon="mdi:heart" class="mr-2" width="20" height="20" />
           Found a joke you love?
         </p>
