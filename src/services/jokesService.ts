@@ -1,4 +1,4 @@
-import { type JokeInput } from '@interfaces';
+import { type ApiJoke } from '@interfaces';
 import { API_ENDPOINTS } from '@constants';
 
 /**
@@ -7,7 +7,7 @@ import { API_ENDPOINTS } from '@constants';
  * @returns Promise with the joke data
  * @throws Error if the API call fails
  */
-export async function fetchJoke(type: 'random' | 'programming'): Promise<JokeInput> {
+export async function fetchJoke(type: 'random' | 'programming'): Promise<ApiJoke> {
   const endpoint = type === 'programming' ? API_ENDPOINTS.PROGRAMMING : API_ENDPOINTS.RANDOM;
 
   const response = await fetch(endpoint);

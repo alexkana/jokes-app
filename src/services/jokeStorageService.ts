@@ -1,4 +1,4 @@
-import { type Joke, type JokeInput } from '@interfaces';
+import { type Joke, type ApiJoke } from '@interfaces';
 import { STORAGE_KEYS, DEFAULTS } from '@constants';
 
 /**
@@ -6,7 +6,7 @@ import { STORAGE_KEYS, DEFAULTS } from '@constants';
  * @param joke The joke to check
  * @returns Whether the joke exists
  */
-export function jokeExists(joke: JokeInput): boolean {
+export function jokeExists(joke: ApiJoke): boolean {
   const jokes = getJokes();
   return jokes.some((j) => j.setup === joke.setup && j.punchline === joke.punchline);
 }
@@ -25,7 +25,7 @@ export function getJokes(): Joke[] {
  * @param joke The joke to save
  * @returns An object with success status and message
  */
-export function saveJoke(joke: JokeInput): { success: boolean; message: string } {
+export function saveJoke(joke: ApiJoke): { success: boolean; message: string } {
   if (!joke) {
     return {
       success: false,
