@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import JokeCard from '@/components/JokeCard.vue';
-import PageHeader from '@/components/PageHeader.vue';
+import JokeCard from '@components/JokeCard.vue';
+import PageHeader from '@components/PageHeader.vue';
 import { Icon } from '@iconify/vue';
 import { RouterLink } from 'vue-router';
 </script>

@@ -1,9 +1,21 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import type { PaginationProps, PaginationEmits } from '@/interfaces';
+import { computed } from 'vue';
+import type { PaginationProps, PaginationEmits } from '@interfaces';
+import { getVisiblePageNumbers } from '@utils/pagination';
+import { PAGINATION } from '@constants';
 
-defineProps<PaginationProps>();
+const props = defineProps<PaginationProps>();
 const emit = defineEmits<PaginationEmits>();
+
+// Use the utility function to compute visible page numbers
+const visiblePages = computed(() => {
+  return getVisiblePageNumbers(
+    props.currentPage,
+    props.totalPages,
+    PAGINATION.DEFAULT_VISIBLE_PAGES
+  );
+});
 
 const goToPage = (page: number) => {
   emit('update:currentPage', page);
@@ -29,14 +41,14 @@ const nextPage = () => {
       <Icon icon="mdi:chevron-left" width="20" height="20" />
     </button>
 
-    <div class="flex space-x-1">
+    <div class="flex space-x-1 overflow-x-auto max-w-[200px] sm:max-w-none">
       <button
-        v-for="page in totalPages"
+        v-for="page in visiblePages"
         :key="page"
-        class="px-3 py-1 rounded-md text-sm cursor-pointer"
+        class="px-3 py-1 rounded-md text-sm cursor-pointer min-w-[32px]"
         :class="{
           'bg-indigo-600 text-white': page === currentPage,
-          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage
+          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage,
         }"
         @click="goToPage(page)"
       >
@@ -53,4 +65,4 @@ const nextPage = () => {
       <Icon icon="mdi:chevron-right" width="20" height="20" />
     </button>
   </div>
-</template> 
+</template>

@@ -2,8 +2,8 @@
 import { onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { useJoke } from '@composables/useJoke';
-import InfoMessage from '@/components/InfoMessage.vue';
-import type { Message } from '@/interfaces';
+import InfoMessage from '@components/InfoMessage.vue';
+import type { Message } from '@interfaces';
 
 // Use the joke composable
 const {

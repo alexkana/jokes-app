@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JokeCollection from '@components/JokeCollection.vue';
-import PageHeader from '@/components/PageHeader.vue';
+import PageHeader from '@components/PageHeader.vue';
 </script>
 
 <template>

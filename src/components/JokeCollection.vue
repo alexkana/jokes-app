@@ -18,13 +18,8 @@ const errorMessage = ref('');
 const toast = useToast();
 
 // Use the filters composable
-const { 
-  searchQuery, 
-  minRatingFilter, 
-  sortOption, 
-  filteredJokes,
-  resetFilters,
-} = useJokeFilters(savedJokes);
+const { searchQuery, minRatingFilter, sortOption, filteredJokes, resetFilters } =
+  useJokeFilters(savedJokes);
 
 // Use pagination composable
 const {
@@ -165,7 +160,7 @@ onMounted(() => {
           @rate="rateJoke"
         />
       </div>
-      
+
       <!-- Pagination -->
       <Pagination
         v-model:currentPage="currentPage"

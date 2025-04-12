@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import type { Message } from '@/interfaces';
+import type { Message } from '@interfaces';
 
 defineProps<{
   message: Message;

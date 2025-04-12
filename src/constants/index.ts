@@ -28,3 +28,10 @@ export const ANIMATION = {
 export const DELAY = {
   CLEAR_MESSAGE: 3000,
 };
+
+// Pagination constants
+export const PAGINATION = {
+  DEFAULT_ITEMS_PER_PAGE: 5,
+  DEFAULT_VISIBLE_PAGES: 5,
+  DEFAULT_INITIAL_PAGE: 1,
+};

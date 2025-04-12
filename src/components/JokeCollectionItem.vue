@@ -27,7 +27,9 @@ const handleRate = (id: string, rating: number) => {
   <div class="bg-gray-700 p-4 rounded-lg flex flex-col justify-between">
     <div class="flex flex-col-reverse sm:flex-row justify-between">
       <!-- Joke setup -->
-      <p class="text-sm sm:text-base text-gray-300 font-medium mb-2 line-clamp-2 sm:line-clamp-none">
+      <p
+        class="text-sm sm:text-base text-gray-300 font-medium mb-2 line-clamp-2 sm:line-clamp-none"
+      >
         {{ joke.setup }}
       </p>
       <div class="flex gap-4 mb-2">
