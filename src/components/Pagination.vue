@@ -48,7 +48,7 @@ const nextPage = () => {
         class="px-3 py-1 rounded-md text-sm cursor-pointer min-w-[32px] focus:outline-none"
         :class="{
           'bg-indigo-600 text-white': page === currentPage,
-          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage
+          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage,
         }"
         @click="goToPage(page)"
       >
