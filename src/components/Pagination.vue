@@ -33,7 +33,7 @@ const nextPage = () => {
 <template>
   <div v-if="totalPages > 1" class="mt-6 flex justify-center items-center space-x-2">
     <button
-      class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+      class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus:outline-none"
       :disabled="currentPage === 1"
       aria-label="Previous page"
       @click="prevPage"
@@ -45,10 +45,10 @@ const nextPage = () => {
       <button
         v-for="page in visiblePages"
         :key="page"
-        class="px-3 py-1 rounded-md text-sm cursor-pointer min-w-[32px]"
+        class="px-3 py-1 rounded-md text-sm cursor-pointer min-w-[32px] focus:outline-none"
         :class="{
           'bg-indigo-600 text-white': page === currentPage,
-          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage,
+          'text-gray-400 hover:text-white hover:bg-gray-700': page !== currentPage
         }"
         @click="goToPage(page)"
       >
@@ -57,7 +57,7 @@ const nextPage = () => {
     </div>
 
     <button
-      class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+      class="p-2 rounded-full text-gray-400 hover:text-white hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus:outline-none"
       :disabled="currentPage === totalPages"
       aria-label="Next page"
       @click="nextPage"
