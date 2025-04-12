@@ -28,8 +28,9 @@ describe('InfoMessage Component', () => {
     expect(wrapper.text()).toContain('Operation successful');
 
     // Check for success styling
-    expect(wrapper.classes()).toContain('flex');
-    expect(wrapper.attributes('class')).toContain('bg-green-100');
+    expect(wrapper.classes()).toContain('inline-flex');
+    expect(wrapper.attributes('class')).toContain('bg-green-900');
+    expect(wrapper.attributes('class')).toContain('text-green-100');
   });
 
   it('renders with error message correctly', () => {
@@ -48,7 +49,8 @@ describe('InfoMessage Component', () => {
     expect(wrapper.text()).toContain('An error occurred');
 
     // Check for error styling
-    expect(wrapper.attributes('class')).toContain('bg-red-100');
+    expect(wrapper.attributes('class')).toContain('bg-red-900');
+    expect(wrapper.attributes('class')).toContain('text-red-100');
   });
 
   it('renders with info message correctly', () => {
@@ -67,7 +69,8 @@ describe('InfoMessage Component', () => {
     expect(wrapper.text()).toContain('Just an information');
 
     // Check for info styling
-    expect(wrapper.attributes('class')).toContain('bg-blue-100');
+    expect(wrapper.attributes('class')).toContain('bg-blue-900');
+    expect(wrapper.attributes('class')).toContain('text-blue-100');
   });
 
   it('does not render when message is null', () => {
