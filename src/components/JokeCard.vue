@@ -56,7 +56,7 @@ onMounted(() => {
             width="20"
             height="20"
           />
-          Switch type
+          Switch Type
         </button>
       </div>
     </div>

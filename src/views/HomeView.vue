@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <PageHeader
         title="Welcome to Jokes App"
-        description="Discover random and programming jokes with our joke discovery tool. Click 'Reveal Punchline' to see the punchline!"
+        description="Discover random and programming jokes with our joke discovery tool. Click 'Show Me!' to see the punchline!"
         icon="mdi:emoticon-cool"
         descriptionIcon="mdi:lightbulb-on"
       />
