@@ -7,14 +7,14 @@ defineProps<PageHeaderProps>();
 
 <template>
   <div>
-    <h1 class="text-2xl sm:text-3xl font-bold text-white mb-6 flex items-center">
+    <h1 class="text-xl sm:text-3xl font-bold text-white mb-6 flex items-center">
       <Icon :icon="icon" class="mr-2" width="32" height="32" />
       {{ title }}
     </h1>
-    <p class="text-base sm:text-lg text-gray-300 mb-8 flex items-center">
+    <p class="text-base sm:text-lg text-gray-300 mb-8 flex items-start">
       <Icon
         :icon="descriptionIcon || 'mdi:information-outline'"
-        class="mr-2 flex-shrink-0"
+        class="mr-2 mt-0.5 flex-shrink-0"
         width="24"
         height="24"
       />
